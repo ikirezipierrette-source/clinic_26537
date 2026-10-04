@@ -9,3 +9,7 @@ target/
 .DS_Store
 Thumbs.db
 *.class
+__MACOSX/
+*.zip
+error.txt
+*.gitignore copy
