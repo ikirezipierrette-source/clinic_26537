@@ -1,7 +1,12 @@
 package com.example.clinic.controller;
 
 import com.example.clinic.entity.Appointment;
+import com.example.clinic.entity.AppointmentStatus;
 import com.example.clinic.service.AppointmentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +24,33 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping
-    public ResponseEntity<Appointment> create(@RequestBody Appointment a) {
-        return new ResponseEntity<>(appointmentService.save(a), HttpStatus.CREATED);
+    @GetMapping
+    public List<Appointment> getAll() {
+        return appointmentService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Appointment getById(@PathVariable Long id) {
+        return appointmentService.findById(id);
     }
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Appointment a) {
-        if (a.getDoctor() != null && a.getDoctor().getDoctorId() != null && a.getDate() != null) {
-            if (appointmentService.isDoctorBooked(a.getDoctor().getDoctorId(), a.getDate())) {
-                return ResponseEntity.status(409).body("Doctor is already booked on that date");
+        if (a.getDoctor() != null && a.getDoctor().getDoctorId() != null
+                && a.getAppointmentDate() != null) {
+            if (appointmentService.isDoctorBooked(
+                    a.getDoctor().getDoctorId(), a.getAppointmentDate())) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("Doctor is already booked on that date");
             }
         }
         return new ResponseEntity<>(appointmentService.save(a), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public List<Appointment> getAll() { return appointmentService.getAll(); }
-
-    @GetMapping("/{id}")
-    public Appointment getById(@PathVariable Long id) { return appointmentService.getById(id); }
+    @PostMapping
+    public Appointment create(@RequestBody Appointment a) {
+        return appointmentService.save(a);
+    }
 
     @PutMapping("/{id}")
     public Appointment update(@PathVariable Long id, @RequestBody Appointment a) {
@@ -49,11 +61,11 @@ public class AppointmentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         appointmentService.delete(id);
-        return ResponseEntity.ok("Appointment deleted with id: " + id);
+        return ResponseEntity.ok("Appointment " + id + " deleted");
     }
 
     @GetMapping("/by-status")
-    public List<Appointment> byStatus(@RequestParam String status) {
+    public List<Appointment> byStatus(@RequestParam AppointmentStatus status) {
         return appointmentService.findByStatus(status);
     }
 
@@ -62,20 +74,32 @@ public class AppointmentController {
         return appointmentService.findBetween(LocalDate.parse(start), LocalDate.parse(end));
     }
 
-    @GetMapping("/status/by-status")
-    public List<Object[]> countsByStatus() {
-        return appointmentService.countsByStatus();
+    @GetMapping("/stats/by-status")
+    public List<Object[]> statsByStatus() {
+        return appointmentService.countByStatus();
     }
 
     @PatchMapping("/cancel-day")
-    public ResponseEntity<String> cancelDay(@RequestParam Long doctorId, @RequestParam String date) {
+    public ResponseEntity<String> cancelDay(@RequestParam Long doctorId,
+                                            @RequestParam String date) {
         int n = appointmentService.cancelDay(doctorId, LocalDate.parse(date));
         return ResponseEntity.ok(n + " appointments cancelled");
     }
 
     @DeleteMapping("/cancelled-before")
-    public ResponseEntity<String> deleteCancelledBefore(@RequestParam String date) {
+    public ResponseEntity<String> cancelledBefore(@RequestParam String date) {
         int n = appointmentService.deleteCancelledBefore(LocalDate.parse(date));
         return ResponseEntity.ok(n + " appointments deleted");
+    }
+
+    @GetMapping("/page")
+    public Page<Appointment> page(@RequestParam int page,
+                                  @RequestParam int size,
+                                  @RequestParam String sort) {
+        String[] parts = sort.split(",");
+        Sort.Direction dir = parts[1].equalsIgnoreCase("desc")
+                ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(dir, parts[0]));
+        return appointmentService.findPage(pageable);
     }
 }

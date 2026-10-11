@@ -14,13 +14,26 @@ public class Office {
     @Column(name = "room_number", nullable = false)
     private String roomNumber;
 
-    public Office() {}
+    public Office() {
+    }
 
-    public Office(String roomNumber) { this.roomNumber = roomNumber; }
+    public Office(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 
-    public Long getOfficeId() { return officeId; }
-    public void setOfficeId(Long officeId) { this.officeId = officeId; }
+    public Long getOfficeId() {
+        return officeId;
+    }
 
-    public String getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    public void setOfficeId(Long officeId) {
+        this.officeId = officeId;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 }

@@ -14,23 +14,41 @@ public class Specialization {
     @Column(name = "specialization_id")
     private Long specializationId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "specializations")
     private List<Doctor> doctors = new ArrayList<>();
 
-    public Specialization() {}
+    public Specialization() {
+    }
 
-    public Specialization(String name) { this.name = name; }
+    public Specialization(String name) {
+        this.name = name;
+    }
 
-    public Long getSpecializationId() { return specializationId; }
-    public void setSpecializationId(Long specializationId) { this.specializationId = specializationId; }
+    public Long getSpecializationId() {
+        return specializationId;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setSpecializationId(Long specializationId) {
+        this.specializationId = specializationId;
+    }
 
-    public List<Doctor> getDoctors() { return doctors; }
-    public void setDoctors(List<Doctor> doctors) { this.doctors = doctors; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
 }

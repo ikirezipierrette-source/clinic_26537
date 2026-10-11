@@ -17,14 +17,20 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-    @PostMapping
-    public Doctor create(@RequestBody Doctor d) { return doctorService.save(d); }
-
     @GetMapping
-    public List<Doctor> getAll() { return doctorService.getAll(); }
+    public List<Doctor> getAll() {
+        return doctorService.findAll();
+    }
 
     @GetMapping("/{id}")
-    public Doctor getById(@PathVariable Long id) { return doctorService.getById(id); }
+    public Doctor getById(@PathVariable Long id) {
+        return doctorService.findById(id);
+    }
+
+    @PostMapping
+    public Doctor create(@RequestBody Doctor d) {
+        return doctorService.save(d);
+    }
 
     @PutMapping("/{id}")
     public Doctor update(@PathVariable Long id, @RequestBody Doctor d) {
@@ -35,7 +41,7 @@ public class DoctorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         doctorService.delete(id);
-        return ResponseEntity.ok("Doctor deleted with id: " + id);
+        return ResponseEntity.ok("Doctor " + id + " deleted");
     }
 
     @GetMapping("/by-specialization")

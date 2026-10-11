@@ -20,40 +20,73 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;
 
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AppointmentStatus status;
 
-    public Appointment() {}
+    public Appointment() {
+    }
 
-    public Appointment(Patient patient, Doctor doctor, LocalDate date, String reason, String status) {
+    public Appointment(Patient patient, Doctor doctor, LocalDate appointmentDate,
+                       String reason, AppointmentStatus status) {
         this.patient = patient;
         this.doctor = doctor;
-        this.date = date;
+        this.appointmentDate = appointmentDate;
         this.reason = reason;
         this.status = status;
     }
 
-    public Long getAppointmentId() { return appointmentId; }
-    public void setAppointmentId(Long appointmentId) { this.appointmentId = appointmentId; }
+    public Long getAppointmentId() {
+        return appointmentId;
+    }
 
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
+    }
 
-    public Doctor getDoctor() { return doctor; }
-    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
+    public Patient getPatient() {
+        return patient;
+    }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    public Doctor getDoctor() {
+        return doctor;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 }

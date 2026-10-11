@@ -9,27 +9,37 @@ import java.util.List;
 @Service
 public class DoctorService {
 
-    private final DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepo;
 
-    public DoctorService(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
+    public DoctorService(DoctorRepository doctorRepo) {
+        this.doctorRepo = doctorRepo;
     }
 
-    public List<Doctor> getAll() { return doctorRepository.findAll(); }
+    public List<Doctor> findAll() {
+        return doctorRepo.findAll();
+    }
 
-    public Doctor getById(Long id) { return doctorRepository.findById(id).orElse(null); }
+    public Doctor findById(Long id) {
+        return doctorRepo.findById(id).orElse(null);
+    }
 
-    public Doctor save(Doctor d) { return doctorRepository.save(d); }
+    public Doctor save(Doctor d) {
+        return doctorRepo.save(d);
+    }
 
-    public void delete(Long id) { doctorRepository.deleteById(id); }
+    public void delete(Long id) {
+        doctorRepo.deleteById(id);
+    }
 
-    public boolean existsById(Long id) { return doctorRepository.existsById(id); }
+    public boolean exists(Long id) {
+        return doctorRepo.existsById(id);
+    }
 
     public List<Doctor> findBySpecialization(String name) {
-        return doctorRepository.findDoctorsBySpecializationName(name);
+        return doctorRepo.findBySpecializationName(name);
     }
 
     public List<Doctor> findWithoutOffice() {
-        return doctorRepository.findDoctorsWithoutOffice();
+        return doctorRepo.findDoctorsWithoutOffice();
     }
 }

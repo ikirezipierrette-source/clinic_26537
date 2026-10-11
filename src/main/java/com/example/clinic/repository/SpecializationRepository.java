@@ -9,5 +9,5 @@ import java.util.List;
 public interface SpecializationRepository extends JpaRepository<Specialization, Long> {
 
     @Query("SELECT s FROM Specialization s WHERE s.doctors IS EMPTY")
-    List<Specialization> findUnusedSpecializations();
+    List<Specialization> findUnused();
 }

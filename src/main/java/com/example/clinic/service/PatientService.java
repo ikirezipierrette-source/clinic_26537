@@ -9,29 +9,37 @@ import java.util.List;
 @Service
 public class PatientService {
 
-    private final PatientRepository patientRepository;
+    private final PatientRepository patientRepo;
 
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
+    public PatientService(PatientRepository patientRepo) {
+        this.patientRepo = patientRepo;
     }
 
-    public List<Patient> getAll() { return patientRepository.findAll(); }
-
-    public Patient getById(Long id) { return patientRepository.findById(id).orElse(null); }
-
-    public Patient save(Patient p) { return patientRepository.save(p); }
-
-    public void delete(Long id) { patientRepository.deleteById(id); }
-
-    public List<Patient> findByFullName(String name) {
-        return patientRepository.findByFullNameContainingIgnoreCaseOrderByFullNameAsc(name);
+    public List<Patient> findAll() {
+        return patientRepo.findAll();
     }
 
-    public List<Patient> findFrequent(long min) {
-        return patientRepository.findFrequentPatients(min);
+    public Patient findById(Long id) {
+        return patientRepo.findById(id).orElse(null);
+    }
+
+    public Patient save(Patient p) {
+        return patientRepo.save(p);
+    }
+
+    public void delete(Long id) {
+        patientRepo.deleteById(id);
+    }
+
+    public List<Patient> findByLastName(String lastName) {
+        return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
 
     public List<Patient> findPatientsOfDoctor(Long doctorId) {
-        return patientRepository.findPatientsByDoctorId(doctorId);
+        return patientRepo.findPatientsOfDoctor(doctorId);
+    }
+
+    public List<Patient> findFrequent(long min) {
+        return patientRepo.findFrequentPatients(min);
     }
 }

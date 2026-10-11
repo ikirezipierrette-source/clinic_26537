@@ -14,15 +14,16 @@ public class Doctor {
     @Column(name = "doctor_id")
     private Long doctorId;
 
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "office_id", nullable = false, unique = true)
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @ManyToOne
+    @JoinColumn(name = "office_id")
     private Office office;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "doctor_specialization",
@@ -35,25 +36,60 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointments = new ArrayList<>();
 
-    public Doctor() {}
+    public Doctor() {
+    }
 
-    public Doctor(String fullName, Office office) {
-        this.fullName = fullName;
+    public Doctor(String firstName, String lastName, Office office) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.office = office;
     }
 
-    public Long getDoctorId() { return doctorId; }
-    public void setDoctorId(Long doctorId) { this.doctorId = doctorId; }
+    public Long getDoctorId() {
+        return doctorId;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public void setDoctorId(Long doctorId) {
+        this.doctorId = doctorId;
+    }
 
-    public Office getOffice() { return office; }
-    public void setOffice(Office office) { this.office = office; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public List<Specialization> getSpecializations() { return specializations; }
-    public void setSpecializations(List<Specialization> specializations) { this.specializations = specializations; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public List<Appointment> getAppointments() { return appointments; }
-    public void setAppointments(List<Appointment> appointments) { this.appointments = appointments; }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
+    }
+
+    public List<Specialization> getSpecializations() {
+        return specializations;
+    }
+
+    public void setSpecializations(List<Specialization> specializations) {
+        this.specializations = specializations;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }

@@ -9,29 +9,29 @@ import java.util.List;
 @Service
 public class SpecializationService {
 
-    private final SpecializationRepository repo;
+    private final SpecializationRepository specRepo;
 
-    public SpecializationService(SpecializationRepository repo) {
-        this.repo = repo;
+    public SpecializationService(SpecializationRepository specRepo) {
+        this.specRepo = specRepo;
     }
 
-    public List<Specialization> getAll() { return repo.findAll(); }
-
-    public Specialization getById(Long id) {
-        return repo.findById(id).orElseThrow(() -> new RuntimeException("Specialization not found: " + id));
+    public List<Specialization> findAll() {
+        return specRepo.findAll();
     }
 
-    public Specialization create(Specialization s) { return repo.save(s); }
-
-    public Specialization update(Long id, Specialization details) {
-        Specialization s = getById(id);
-        s.setName(details.getName());
-        return repo.save(s);
+    public Specialization findById(Long id) {
+        return specRepo.findById(id).orElse(null);
     }
 
-    public void delete(Long id) { repo.deleteById(id); }
+    public Specialization save(Specialization s) {
+        return specRepo.save(s);
+    }
+
+    public void delete(Long id) {
+        specRepo.deleteById(id);
+    }
 
     public List<Specialization> findUnused() {
-        return repo.findUnusedSpecializations();
+        return specRepo.findUnused();
     }
 }
