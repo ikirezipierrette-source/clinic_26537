@@ -30,4 +30,8 @@ public class OfficeService {
     public void delete(Long id) {
         officeRepo.deleteById(id);
     }
+
+    public List<Office> findFreeOffices() {
+        return officeRepo.findFreeOffices();
+    }
 }

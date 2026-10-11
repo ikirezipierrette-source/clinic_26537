@@ -15,31 +15,19 @@ public class PatientService {
         this.patientRepo = patientRepo;
     }
 
-    public List<Patient> findAll() {
-        return patientRepo.findAll();
-    }
+    public List<Patient> findAll() { return patientRepo.findAll(); }
 
-    public Patient findById(Long id) {
-        return patientRepo.findById(id).orElse(null);
-    }
+    public Patient findById(Long id) { return patientRepo.findById(id).orElse(null); }
 
-    public Patient save(Patient p) {
-        return patientRepo.save(p);
-    }
+    public Patient save(Patient p) { return patientRepo.save(p); }
 
-    public void delete(Long id) {
-        patientRepo.deleteById(id);
-    }
+    public void delete(Long id) { patientRepo.deleteById(id); }
 
-    public List<Patient> findByLastName(String lastName) {
-        return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
-    }
+    public Patient findBySsNumber(String ss) { return patientRepo.findBySsNumber(ss); }
 
-    public List<Patient> findPatientsOfDoctor(Long doctorId) {
-        return patientRepo.findPatientsOfDoctor(doctorId);
-    }
+    public List<Patient> findByFullName(String name) { return patientRepo.findByFullNameContainingIgnoreCaseOrderByFullNameAsc(name); }
 
-    public List<Patient> findFrequent(long min) {
-        return patientRepo.findFrequentPatients(min);
-    }
+    public List<Patient> findFrequent(long min) { return patientRepo.findFrequentPatients(min); }
+
+    public List<Patient> findPatientsOfDoctor(Long doctorId) { return patientRepo.findPatientsByDoctorId(doctorId); }
 }

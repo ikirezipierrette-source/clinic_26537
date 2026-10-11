@@ -55,4 +55,9 @@ public class OfficeController {
         }
         return ResponseEntity.ok(rows.get(0));
     }
+
+    @GetMapping("/free")
+    public List<Office> free() {
+        return officeService.findFreeOffices();
+    }
 }

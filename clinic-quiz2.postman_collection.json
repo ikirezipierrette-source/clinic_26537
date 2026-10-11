@@ -1,0 +1,26 @@
+{
+  "info": {
+    "name": "Clinic Quiz 2 - JPA & JPQL Part 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    { "name": "A1 - Add specialization to doctor", "request": { "method": "PUT", "url": "http://localhost:5051/api/doctors/2/specializations/1" } },
+    { "name": "A2 - Remove specialization from doctor", "request": { "method": "DELETE", "url": "http://localhost:5051/api/doctors/2/specializations/1" } },
+    { "name": "A3 - Free offices", "request": { "method": "GET", "url": "http://localhost:5051/api/offices/free" } },
+    { "name": "A4 - Move doctor to office", "request": { "method": "PATCH", "url": "http://localhost:5051/api/doctors/3/office?officeNumber=104" } },
+    { "name": "B1 - Safe booking past date", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"patient\":{\"patientId\":1},\"doctor\":{\"doctorId\":1},\"appointmentDate\":\"2020-01-01\",\"reason\":\"Test\",\"status\":\"SCHEDULED\"}"}, "url": "http://localhost:5051/api/appointments/save" } },
+    { "name": "B2 - Change status", "request": { "method": "PATCH", "url": "http://localhost:5051/api/appointments/1/status?status=CONFIRMED" } },
+    { "name": "B3 - Reschedule", "request": { "method": "PATCH", "url": "http://localhost:5051/api/appointments/3/reschedule?newDate=2026-12-20" } },
+    { "name": "C1 - Save prescription", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"medicineName\":\"Amoxicillin\",\"dosage\":\"1 tablet\",\"durationDays\":7}"}, "url": "http://localhost:5051/api/prescriptions/save?appointmentId=6" } },
+    { "name": "C2 - Prescriptions of appointment", "request": { "method": "GET", "url": "http://localhost:5051/api/prescriptions/appointment/6" } },
+    { "name": "C3 - Prescriptions of patient", "request": { "method": "GET", "url": "http://localhost:5051/api/prescriptions/patient/1199000022222" } },
+    { "name": "C4 - Update prescription", "request": { "method": "PUT", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\"medicineName\":\"Paracetamol\",\"dosage\":\"2 tablets\",\"durationDays\":5}"}, "url": "http://localhost:5051/api/prescriptions/update/REPLACE-WITH-UUID" } },
+    { "name": "C4 - Delete prescription", "request": { "method": "DELETE", "url": "http://localhost:5051/api/prescriptions/delete/REPLACE-WITH-UUID" } },
+    { "name": "D1 - Doctor agenda", "request": { "method": "GET", "url": "http://localhost:5051/api/doctors/1/agenda?date=2026-10-22" } },
+    { "name": "D2 - Patient upcoming", "request": { "method": "GET", "url": "http://localhost:5051/api/patients/1199000011111/upcoming" } },
+    { "name": "D3 - Search doctors", "request": { "method": "GET", "url": "http://localhost:5051/api/doctors/search?name=gis" } },
+    { "name": "D4 - Dashboard summary", "request": { "method": "GET", "url": "http://localhost:5051/api/dashboard/summary" } },
+    { "name": "Bonus 1 - Top medicines", "request": { "method": "GET", "url": "http://localhost:5051/api/prescriptions/stats/top-medicines" } },
+    { "name": "Bonus 2 - Doctor workload", "request": { "method": "GET", "url": "http://localhost:5051/api/doctors/workload?start=2026-10-01&end=2026-10-31" } }
+  ]
+}

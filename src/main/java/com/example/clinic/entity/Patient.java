@@ -14,6 +14,9 @@ public class Patient {
     @Column(name = "patient_id")
     private Long patientId;
 
+    @Column(name = "ss_number", unique = true)
+    private String ssNumber;
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -27,7 +30,8 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String firstName, String lastName) {
+    public Patient(String ssNumber, String firstName, String lastName) {
+        this.ssNumber = ssNumber;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -38,6 +42,14 @@ public class Patient {
 
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
+    }
+
+    public String getSsNumber() {
+        return ssNumber;
+    }
+
+    public void setSsNumber(String ssNumber) {
+        this.ssNumber = ssNumber;
     }
 
     public String getFirstName() {

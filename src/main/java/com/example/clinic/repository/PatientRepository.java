@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
-    List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
+    Patient findBySsNumber(String ssNumber);
+
+    @Query("SELECT p FROM Patient p WHERE LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY p.firstName ASC")
+    List<Patient> findByFullNameContainingIgnoreCaseOrderByFullNameAsc(@Param("name") String name);
+
+    @Query("SELECT a.patient FROM Appointment a GROUP BY a.patient HAVING COUNT(a) >= :min ORDER BY COUNT(a) DESC")
+    List<Patient> findFrequentPatients(@Param("min") long min);
 
     @Query("SELECT DISTINCT a.patient FROM Appointment a WHERE a.doctor.doctorId = :doctorId")
-    List<Patient> findPatientsOfDoctor(@Param("doctorId") Long doctorId);
-
-    @Query("SELECT a.patient FROM Appointment a " +
-           "GROUP BY a.patient " +
-           "HAVING COUNT(a) >= :min " +
-           "ORDER BY COUNT(a) DESC")
-    List<Patient> findFrequentPatients(@Param("min") long min);
+    List<Patient> findPatientsByDoctorId(@Param("doctorId") Long doctorId);
 }
